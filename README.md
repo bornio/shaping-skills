@@ -6,7 +6,7 @@ Claude Code skills for collaborative product shaping and system understanding.
 
 ## Breadboarding
 
-Breadboarding transforms a workflow description into a complete map of affordances and their relationships. The output is a set of tables showing what you can do and how it wires together.
+Breadboarding transforms a workflow description into a complete map of affordances and their relationships. The output is a set of tables showing what you can do and how it wires together — which we can render as a diagram of the shape.
 
 ### What Makes Breadboards Different
 
