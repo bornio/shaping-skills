@@ -13,6 +13,10 @@
 ## Install
 
 ```bash
-# Clone into your Claude Code skills directory
-git clone https://github.com/rjs/shaping-skills.git ~/.claude/skills/shaping-skills
+# Clone the repo, then symlink each skill into your Claude Code skills directory
+git clone https://github.com/rjs/shaping-skills.git ~/.local/share/shaping-skills
+ln -s ~/.local/share/shaping-skills/breadboarding ~/.claude/skills/breadboarding
+ln -s ~/.local/share/shaping-skills/shaping ~/.claude/skills/shaping
 ```
+
+Each skill must be a direct child of `~/.claude/skills/` so Claude Code can discover it. Symlinks keep them updatable with `git pull`.
