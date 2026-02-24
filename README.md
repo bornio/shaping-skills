@@ -1,8 +1,10 @@
 # Shaping Skills
 
-[Claude Code](https://claude.com/claude-code) skills for shaping and breadboarding — the methodology from [Shape Up](https://basecamp.com/shapeup) adapted for working with an LLM.
+Codex skills for shaping and breadboarding — the methodology from [Shape Up](https://basecamp.com/shapeup) adapted for working with an LLM.
 
-**Case study:** [Shaping 0-1 with Claude Code](https://x.com/rjs/status/2020184079350563263) walks through the full process of building a project from scratch using these skills. The source for that project is at [rjs/tick](https://github.com/rjs/tick).
+This repository is a maintained fork of [rjs/shaping-skills](https://github.com/rjs/shaping-skills) with additional skills.
+
+**Case study:** [Shaping 0-1 walkthrough](https://x.com/rjs/status/2020184079350563263) walks through the full process of building a project from scratch using these skills. The source for that project is at [rjs/tick](https://github.com/rjs/tick).
 
 ## Skills
 
@@ -10,53 +12,36 @@
 
 **`/breadboarding`** — Map a system into UI affordances, code affordances, and wiring. Shows what users can do and how it works underneath — in one view. Good for slicing into vertical scopes.
 
+**`/breadboard-reflection`** — Find design smells in an existing breadboard and fix wiring, naming, and causality issues.
+
+**`/llm-api-review-and-redesign`** — Review a REST/OpenAPI surface and produce a prioritized redesign plan for LLM/agent reliability.
+
+**`/skill-content-optimizer`** — Create or revise Skills and repo context files to be minimal, procedural, and verifier-focused.
+
 ## Install
 
 ```bash
-# Clone the repo, then symlink each skill into your Claude Code skills directory
-git clone https://github.com/rjs/shaping-skills.git ~/.local/share/shaping-skills
-ln -s ~/.local/share/shaping-skills/breadboarding ~/.claude/skills/breadboarding
-ln -s ~/.local/share/shaping-skills/shaping ~/.claude/skills/shaping
+# Clone your fork
+git clone https://github.com/bornio/shaping-skills.git ~/.local/share/shaping-skills
+cd ~/.local/share/shaping-skills
+
+# Symlink every folder that contains SKILL.md into ~/.codex/skills/
+mkdir -p ~/.codex/skills
+for d in */; do
+  [ -f "${d}SKILL.md" ] || continue
+  ln -sfn "$PWD/${d%/}" "$HOME/.codex/skills/${d%/}"
+done
 ```
 
-Each skill must be a direct child of `~/.claude/skills/` so Claude Code can discover it. Symlinks keep them updatable with `git pull`.
+Each skill must be a direct child of `~/.codex/skills/` so Codex can discover it. Symlinks keep them updatable with `git pull`.
 
-## Hook: Ripple Check
-
-The repo includes a hook that reminds Claude to check for ripple effects when editing shaping documents. When Claude writes or edits a `.md` file with `shaping: true` in its frontmatter, the hook prompts a checklist — update affordance tables, fit checks, work streams, etc.
-
-### Setup
-
-1. Symlink the hook script:
+## Sync with upstream
 
 ```bash
-mkdir -p ~/.claude/hooks
-ln -s ~/.local/share/shaping-skills/hooks/shaping-ripple.sh ~/.claude/hooks/shaping-ripple.sh
+cd ~/.local/share/shaping-skills
+git remote get-url upstream >/dev/null 2>&1 || git remote add upstream https://github.com/rjs/shaping-skills.git
+git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main
 ```
-
-2. Add the hook to your `~/.claude/settings.json`:
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/shaping-ripple.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-This fires after every `Write` or `Edit` tool call. It only activates for shaping documents (those with `shaping: true` frontmatter) — all other files pass through silently.
-
----
-
-This README was written by [Claude Code](https://claude.com/claude-code).

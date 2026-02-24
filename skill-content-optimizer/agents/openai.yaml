@@ -1,0 +1,6 @@
+display_name: Skill Content Optimizer
+short_description: Draft minimal, high-leverage Skills and repo context files that improve success without bloating context.
+default_prompt: >
+  Create or revise a Skill (SKILL.md + optional resources) or a repo context file (AGENTS.md/CODEX.md) to maximize agent task success.
+  Keep it minimal, procedural, and verifier-focused. Use 2–3 sections/modules, include at least one working example, add explicit verification
+  steps, and remove any non-essential requirements.
